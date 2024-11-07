@@ -25,7 +25,8 @@
   "packageManager": "npm@10.9.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && gulp build:icons && npm link && cd ~/.n8n/custom && npm link n8n-nodes-obsidian && restartn8n",
+    "build": "tsc && gulp build:icons && npm link",
+    "localbuild": "tsc && gulp build:icons && npm link && cd ~/.n8n/custom && npm link n8n-nodes-obsidian && restartn8n",
     "dev": "tsc --watch",
     "format": "prettier nodes  --write",
     "lint": "eslint nodes  package.json",
