@@ -2,7 +2,7 @@
 
 This is an n8n community node. It lets you use information in Obsidian vaults in your n8n workflows. This is still a work in progress. 
 
-Obsidian is a note-taking app that allows you to organize your notes into notebooks and create links between them. It is a popular tool for personal and professional use, and is available for Windows, macOS, Linux, Android, iOS, and web.
+Obsidian is a note-taking app that allows you to organize your notes into notebooks and create links between them. 
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
