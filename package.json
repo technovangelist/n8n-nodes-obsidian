@@ -1,7 +1,7 @@
 {
   "name": "n8n-nodes-obsidian",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.1.3",
+  "description": "n8n nodes for working with notes in Obsidian",
   "keywords": [
     "obsidian",
     "note",
@@ -9,9 +9,9 @@
     "n8n-community-node-package"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://technovangelist.com",
   "author": {
-    "name": "matt",
+    "name": "Matt Williams",
     "email": "m@technovangelist.com"
   },
   "repository": {
@@ -22,15 +22,15 @@
     "node": ">=18.10",
     "pnpm": ">=9.1"
   },
-  "packageManager": "pnpm@9.1.4",
+  "packageManager": "npm@10.9.0",
   "main": "index.js",
   "scripts": {
     "build": "tsc && gulp build:icons && npm link && cd ~/.n8n/custom && npm link n8n-nodes-obsidian && restartn8n",
     "dev": "tsc --watch",
-    "format": "prettier nodes credentials --write",
-    "lint": "eslint nodes credentials package.json",
-    "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "npm build && npm lint -c .eslintrc.prepublish.js nodes credentials package.json"
+    "format": "prettier nodes  --write",
+    "lint": "eslint nodes  package.json",
+    "lintfix": "eslint nodes  package.json --fix",
+    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes package.json"
   },
   "files": [
     "dist"
@@ -38,7 +38,8 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "nodes": [
-      "dist/nodes/ObsidianMD/ObsidianMD.node.js", "dist/nodes/ObsidianMD/ObsidianMDTrigger.node.js"
+      "dist/nodes/Obsidian/Obsidian.node.js",
+      "dist/nodes/Obsidian/ObsidianTrigger.node.js"
     ]
   },
   "devDependencies": {

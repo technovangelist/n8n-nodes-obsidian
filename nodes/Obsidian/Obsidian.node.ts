@@ -10,13 +10,14 @@ import {
 // import matter from "gray-matter";
 import { getNote, writeNote } from "./shared";
 
-export class ObsidianMD implements INodeType {
+export class Obsidian implements INodeType {
   description: INodeTypeDescription = {
     properties: [
       {
         displayName: "Operation",
         name: "operation",
         type: "options",
+        noDataExpression: true,
         options: [
           {
             name: "Read Obsidian Note",
@@ -51,16 +52,16 @@ export class ObsidianMD implements INodeType {
         },
       },
     ],
-    displayName: "ObsidianMD",
-    name: "ObsidianMD",
-    icon: "file:obsidianmd.svg",
+    displayName: "Obsidian",
+    name: "obsidian",
+    icon: "file:obsidian.svg",
     group: ["transform"],
     version: 1,
     subtitle:
       '={{$parameter["filename"].split("/").pop() + ": " + $parameter["operation"] + " frontmatter" }}',
-    description: "ObsidianMD",
+    description: "Obsidian",
     defaults: {
-      name: "ObsidianMD",
+      name: "Obsidian",
     },
     inputs: ["main"],
     outputs: ["main"],
@@ -69,7 +70,7 @@ export class ObsidianMD implements INodeType {
     const returnData = [];
     const filename = this.getNodeParameter("filename", 0) as string;
     const operation = this.getNodeParameter("operation", 0) as string;
-  
+
     const noteData = getNote(filename);
     returnData.push(noteData);
 
@@ -81,7 +82,7 @@ export class ObsidianMD implements INodeType {
 
       const newFrontmatter = { ...noteData.frontmatter, ...valuesToSave };
 
-      writeNote(filename, newFrontmatter, noteData.content )
+      writeNote(filename, newFrontmatter, noteData.content);
     }
 
     return [this.helpers.returnJsonArray(returnData)];

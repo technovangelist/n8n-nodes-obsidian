@@ -22,7 +22,7 @@
 		"outDir": "./dist/",
 	},
 	"include": [
-		"credentials/**/*",
+    "credentials/**/*",
 		"nodes/**/*",
 		"nodes/**/*.json",
 		"package.json",

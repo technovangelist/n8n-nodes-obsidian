@@ -5,7 +5,6 @@ import {
   INodeTypeDescription,
   ITriggerFunctions,
   ITriggerResponse,
-  NodeConnectionType,
 } from "n8n-workflow";
 // import { readFileSync, writeFileSync } from "fs";
 // import * as yaml from "js-yaml";
@@ -14,17 +13,16 @@ import { watch } from "chokidar";
 import * as path from "path";
 import { getNote, noteMeetsConditions } from "./shared";
 
-export class ObsidianMDTrigger implements INodeType {
+export class ObsidianTrigger implements INodeType {
   description: INodeTypeDescription = {
-    displayName: "ObsidianMD Trigger",
-    name: "ObsidianMDTrigger",
-    icon: "file:obsidianmd.svg",
+    displayName: "Obsidian Trigger",
+    name: "obsidianTrigger",
+    icon: "file:obsidian.svg",
     group: ["trigger"],
     version: 1,
     description: "Triggers when a note in ObsidianMD is updated",
     defaults: {
-      name: "ObsidianMD Trigger",
-      color: "#000000",
+      name: "Obsidian Trigger",
     },
     triggerPanel: {
       header: "",
@@ -38,7 +36,7 @@ export class ObsidianMDTrigger implements INodeType {
         "Once you've finished building your workflow, <a data-key='activate'>activate</a> it to have it also listen continuously (you just won't see those executions here).",
     },
     inputs: [],
-    outputs: [NodeConnectionType.Main],
+    outputs: ['main'],
     properties: [
       {
         displayName: "Obsidian Vault Path",
@@ -64,7 +62,7 @@ export class ObsidianMDTrigger implements INodeType {
           },
         ],
         required: true,
-        default: "",
+        default: "folder",
       },
       {
         displayName: "File to Watch",
@@ -87,7 +85,8 @@ export class ObsidianMDTrigger implements INodeType {
         typeOptions: {
           rows: 5,
         },
-        description: "Filters to apply to the frontmatter of the file. Write the filter just like you would use in Obsidian frontmatter.",
+        description:
+          "Filters to apply to the frontmatter of the file. Write the filter just like you would use in Obsidian frontmatter.",
       },
       {
         displayName: "Folder to Watch",
@@ -158,21 +157,13 @@ export class ObsidianMDTrigger implements INodeType {
               "Whether to wait until files finished writing to avoid partially read",
           },
           {
-            displayName: "Include Linked Files/Folders",
-            name: "followSymlinks",
-            type: "boolean",
-            default: true,
-            description:
-              "Whether linked files/folders will also be watched (this includes symlinks, aliases on MacOS and shortcuts on Windows). Otherwise only the links themselves will be monitored).",
-          },
-          {
             displayName: "Ignore",
             name: "ignored",
             type: "string",
             default: "",
             placeholder: "**/*.txt",
             description:
-              'Files or paths to ignore. The whole path is tested, not just the filename. Supports <a href="https://github.com/micromatch/anymatch">Anymatch</a>- syntax.',
+            'Files or paths to ignore. The whole path is tested, not just the filename. Supports <a href="https://github.com/micromatch/anymatch">Anymatch</a>- syntax.',
           },
           {
             displayName: "Ignore Existing Files/Folders",
@@ -180,7 +171,15 @@ export class ObsidianMDTrigger implements INodeType {
             type: "boolean",
             default: true,
             description:
-              "Whether to ignore existing files/folders to not trigger an event",
+            "Whether to ignore existing files/folders to not trigger an event",
+          },
+          {
+            displayName: "Include Linked Files/Folders",
+            name: "followSymlinks",
+            type: "boolean",
+            default: true,
+            description:
+              "Whether linked files/folders will also be watched (this includes symlinks, aliases on MacOS and shortcuts on Windows). Otherwise only the links themselves will be monitored).",
           },
           {
             displayName: "Max Folder Depth",
@@ -261,8 +260,11 @@ export class ObsidianMDTrigger implements INodeType {
     ) => {
       const noteInfo = getNote(pathString);
 
-      console.log(frontmatterFilters.trim().length)
-      if (frontmatterFilters.trim().length < 3 || noteMeetsConditions(noteInfo.frontmatter, frontmatterFilters)) {
+      console.log(frontmatterFilters.trim().length);
+      if (
+        frontmatterFilters.trim().length < 3 ||
+        noteMeetsConditions(noteInfo.frontmatter, frontmatterFilters)
+      ) {
         this.emit([
           this.helpers.returnJsonArray([{
             event,
