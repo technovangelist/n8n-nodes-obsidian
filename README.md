@@ -6,7 +6,7 @@ Obsidian is a note-taking app that allows you to organize your notes into notebo
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-My exact use case is when I finish a script for a YouTube video, I can mark the script as complete and have a local ai build a description, then add frontmatter saying that step is done. It solves my need. 
+My exact use case is when I finish a script for a YouTube video, I can mark the script as complete and have a local ai build a description, then add frontmatter saying that step is done. It solves my need.
 
 [Installation](#installation)  
 [Operations](#operations)  
