@@ -1,3 +1,12 @@
+## [0.1.6](https://github.com/technovangelist/n8n-nodes-obsidian/compare/v0.1.5...v0.1.6) (2024-11-07)
+
+
+### Bug Fixes
+
+* build process ([8329bff](https://github.com/technovangelist/n8n-nodes-obsidian/commit/8329bffefbea489aa7913f7b23fc64657a83ec05))
+
+
+
 ## [0.1.5](https://github.com/technovangelist/n8n-nodes-obsidian/compare/v0.1.4...v0.1.5) (2024-11-07)
 
 
