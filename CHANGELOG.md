@@ -1,4 +1,13 @@
-## 0.1.4 (2024-11-07)
+## [0.1.5](https://github.com/technovangelist/n8n-nodes-obsidian/compare/v0.1.4...v0.1.5) (2024-11-07)
+
+
+### Bug Fixes
+
+* build process ([6d5003f](https://github.com/technovangelist/n8n-nodes-obsidian/commit/6d5003f335c2aa39e3a7da4fef31f9d059d5b615))
+
+
+
+## [0.1.4](https://github.com/technovangelist/n8n-nodes-obsidian/compare/b56dfbd4c9ea8e1f0f1c8f71ee2e5018ab6837aa...v0.1.4) (2024-11-07)
 
 
 ### Bug Fixes
