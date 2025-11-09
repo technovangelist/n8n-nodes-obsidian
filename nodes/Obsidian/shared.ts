@@ -41,7 +41,7 @@ export const writeNote = (
   frontmatter: object,
   content: string,
 ) => {
-  const newFileContent: string = "---\n" + yaml.dump(frontmatter) +
+  const newFileContent: string = "---\n" + yaml.dump(frontmatter) + "---\n" +
     content.trimStart();
 
   writeFileSync(filepath, newFileContent, "utf-8");
