@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-obsidian",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "n8n nodes for working with notes in Obsidian",
   "keywords": [
     "obsidian",
@@ -44,15 +44,11 @@
     ]
   },
   "devDependencies": {
-    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.8.7",
     "@typescript-eslint/parser": "^7.15.0",
-    "chokidar": "^4.0.1",
     "eslint": "^8.56.0",
     "eslint-plugin-n8n-nodes-base": "^1.16.3",
-    "gray-matter": "^4.0.3",
     "gulp": "^4.0.2",
-    "js-yaml": "^4.1.0",
     "n8n-workflow": "*",
     "prettier": "^3.3.2",
     "typescript": "^5.5.3"
@@ -61,6 +57,7 @@
     "n8n-workflow": "*"
   },
   "dependencies": {
-    "fs": "^0.0.1-security"
+    "chokidar": "^4.0.3",
+    "gray-matter": "^4.0.3"
   }
 }
