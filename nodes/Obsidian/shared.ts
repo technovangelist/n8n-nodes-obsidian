@@ -1,6 +1,8 @@
-import matter from 'gray-matter';
 import { readFileSync, writeFileSync } from 'fs';
 import * as path from 'path';
+import YAML from 'yaml';
+
+const FRONTMATTER_PATTERN = /^---\r?\n([\s\S]*?)\r?\n(?:---|\.\.\.)\r?\n?/;
 
 const parseFilterValue = (value: string): string | number | boolean | null => {
 	const trimmedValue = value.trim();
@@ -29,12 +31,17 @@ export const resolveVaultPath = (vaultPath: string, notePath: string): string =>
 
 export const getNote = (filepath: string) => {
 	const filecontent = readFileSync(filepath, 'utf8');
-	const { data, content } = matter(filecontent);
+	const match = filecontent.match(FRONTMATTER_PATTERN);
+	const rawFrontmatter = match?.[1];
+	const parsedFrontmatter = rawFrontmatter ? YAML.parse(rawFrontmatter) : {};
+	const frontmatter =
+		parsedFrontmatter && typeof parsedFrontmatter === 'object' ? parsedFrontmatter : {};
+	const content = match ? filecontent.slice(match[0].length) : filecontent;
 
 	return {
 		filename: filepath,
-		content: content,
-		frontmatter: data,
+		content,
+		frontmatter,
 	};
 };
 
@@ -81,7 +88,11 @@ export const writeNote = (
 	frontmatter: Record<string, unknown>,
 	content: string,
 ) => {
-	const newFileContent = matter.stringify(content, frontmatter);
+	const hasFrontmatter = Object.keys(frontmatter).length > 0;
+	const serializedFrontmatter = hasFrontmatter
+		? `---\n${YAML.stringify(frontmatter).trimEnd()}\n---\n`
+		: '';
+	const newFileContent = `${serializedFrontmatter}${content}`;
 
 	writeFileSync(filepath, newFileContent, 'utf-8');
 };

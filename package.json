@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-obsidian",
-  "version": "0.1.7",
+  "version": "0.1.6",
   "description": "n8n nodes for working with notes in Obsidian",
   "keywords": [
     "obsidian",
@@ -58,6 +58,6 @@
   },
   "dependencies": {
     "chokidar": "^4.0.3",
-    "gray-matter": "^4.0.3"
+    "yaml": "^2.8.3"
   }
 }
