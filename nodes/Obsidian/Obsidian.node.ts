@@ -48,13 +48,28 @@ export class Obsidian implements INodeType {
 				description: 'Path to the note inside the configured vault',
 			},
 			{
-				displayName: 'Values To Save',
-				name: 'valuesToSave',
-				description: 'JSON object of values to save',
+				displayName: 'Frontmatter Values To Save',
+				name: 'frontmatterValuesToSave',
+				description: 'JSON object of frontmatter values to save',
 				type: 'string',
 				default: '',
 				typeOptions: {
 					rows: 5,
+				},
+				displayOptions: {
+					show: {
+						operation: ['write'],
+					},
+				},
+			},
+			{
+				displayName: 'Content',
+				name: 'content',
+				description: 'New note content to save. Leave blank to keep the existing content',
+				type: 'string',
+				default: '',
+				typeOptions: {
+					rows: 8,
 				},
 				displayOptions: {
 					show: {
@@ -94,12 +109,14 @@ export class Obsidian implements INodeType {
 
 		if (operation === 'write') {
 			const valuesToSave = JSON.parse(
-				'{' + (this.getNodeParameter('valuesToSave', 0) as string) + '}',
+				'{' + (this.getNodeParameter('frontmatterValuesToSave', 0) as string) + '}',
 			);
+			const contentToSave = this.getNodeParameter('content', 0) as string;
 
 			const newFrontmatter = { ...noteData.frontmatter, ...valuesToSave };
+			const newContent = contentToSave === '' ? noteData.content : contentToSave;
 
-			writeNote(resolvedFilename, newFrontmatter, noteData.content);
+			writeNote(resolvedFilename, newFrontmatter, newContent);
 		}
 
 		return [this.helpers.returnJsonArray(returnData)];
