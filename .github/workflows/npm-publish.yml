@@ -19,8 +19,10 @@ jobs:
         with:
           node-version: 22.4.0
           registry-url: https://registry.npmjs.org/
-      - run: npm install
-      - run: npm run build
+      - run: npm ci
+      - run: npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
