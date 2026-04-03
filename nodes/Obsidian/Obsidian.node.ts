@@ -65,7 +65,7 @@ export class Obsidian implements INodeType {
 			{
 				displayName: 'Content',
 				name: 'content',
-				description: 'New note content to save. Leave blank to keep the existing content',
+				description: 'New note content to save. Leave blank to keep the existing content.',
 				type: 'string',
 				default: '',
 				typeOptions: {
