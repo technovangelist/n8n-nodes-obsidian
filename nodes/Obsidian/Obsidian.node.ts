@@ -11,7 +11,13 @@ import * as path from 'path';
 // import { readFileSync, writeFileSync } from "fs";
 // import * as yaml from "js-yaml";
 // import matter from "gray-matter";
-import { getNote, isPathInside, resolveVaultPath, writeNote } from './shared';
+import {
+	getNote,
+	isPathInside,
+	parseFrontmatterInput,
+	resolveVaultPath,
+	writeNote,
+} from './shared';
 
 export class Obsidian implements INodeType {
 	description: INodeTypeDescription = {
@@ -115,9 +121,19 @@ export class Obsidian implements INodeType {
 				};
 
 		if (operation === 'write') {
-			const valuesToSave = JSON.parse(
-				'{' + (this.getNodeParameter('frontmatterValuesToSave', 0) as string) + '}',
-			);
+			let valuesToSave: Record<string, unknown>;
+
+			try {
+				valuesToSave = parseFrontmatterInput(
+					this.getNodeParameter('frontmatterValuesToSave', 0) as string,
+				);
+			} catch (error) {
+				throw new ApplicationError(
+					'Frontmatter Values To Save must be a JSON or YAML object, or JSON key/value pairs.',
+					{ extra: { error: error instanceof Error ? error.message : String(error) }, tags: {} },
+				);
+			}
+
 			const contentToSave = this.getNodeParameter('content', 0) as string;
 
 			const newFrontmatter = { ...noteData.frontmatter, ...valuesToSave };

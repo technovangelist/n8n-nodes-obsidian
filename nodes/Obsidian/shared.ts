@@ -29,6 +29,29 @@ export const resolveVaultPath = (vaultPath: string, notePath: string): string =>
 	return path.resolve(path.resolve(vaultPath), notePath);
 };
 
+export const parseFrontmatterInput = (input: string): Record<string, unknown> => {
+	const trimmedInput = input.trim();
+
+	if (trimmedInput === '') {
+		return {};
+	}
+
+	let parsedInput: unknown;
+
+	try {
+		const normalizedJsonInput = trimmedInput.startsWith('{') ? trimmedInput : `{${trimmedInput}}`;
+		parsedInput = JSON.parse(normalizedJsonInput);
+	} catch {
+		parsedInput = YAML.parse(trimmedInput);
+	}
+
+	if (!parsedInput || typeof parsedInput !== 'object' || Array.isArray(parsedInput)) {
+		throw new Error('Frontmatter values must be a JSON or YAML object.');
+	}
+
+	return parsedInput as Record<string, unknown>;
+};
+
 export const getNote = (filepath: string) => {
 	const filecontent = readFileSync(filepath, 'utf8');
 	const match = filecontent.match(FRONTMATTER_PATTERN);
