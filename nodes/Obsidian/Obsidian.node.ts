@@ -6,6 +6,7 @@ import {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
+import { existsSync } from 'fs';
 import * as path from 'path';
 // import { readFileSync, writeFileSync } from "fs";
 // import * as yaml from "js-yaml";
@@ -104,8 +105,14 @@ export class Obsidian implements INodeType {
 			throw new ApplicationError('The note path must stay inside the configured Obsidian vault.');
 		}
 
-		const noteData = getNote(resolvedFilename);
-		returnData.push(noteData);
+		const noteExists = existsSync(resolvedFilename);
+		const noteData = noteExists
+			? getNote(resolvedFilename)
+			: {
+					filename: resolvedFilename,
+					content: '',
+					frontmatter: {},
+				};
 
 		if (operation === 'write') {
 			const valuesToSave = JSON.parse(
@@ -117,6 +124,13 @@ export class Obsidian implements INodeType {
 			const newContent = contentToSave === '' ? noteData.content : contentToSave;
 
 			writeNote(resolvedFilename, newFrontmatter, newContent);
+			returnData.push({
+				filename: resolvedFilename,
+				content: newContent,
+				frontmatter: newFrontmatter,
+			});
+		} else {
+			returnData.push(noteData);
 		}
 
 		return [this.helpers.returnJsonArray(returnData)];
